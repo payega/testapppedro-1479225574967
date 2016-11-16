@@ -20,8 +20,37 @@ public class SimpleServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	String username = "";
+    	String password = "";
+    	String url = "";
+    	String word = "This is my test application";
+    	System.out.println("VCAP_SERVICES " + System.getenv("VCAP_SERVICES") + "*************");
+       	if (System.getenv("VCAP_SERVICES") == null || System.getenv("VCAP_SERVICES").equals("{}")){
+        	username = "a7e3f18d-4c1b-41f2-b3ee-15d97f4800ef";
+        	password = "nOSLjlfwrexb";
+        	url = "https://gateway.watsonplatform.net/language-translator/api";
+    	}else{
+	    	JsonObject vcap = new JsonParser().parse(System.getenv("VCAP_SERVICES")).getAsJsonObject();
+	    	System.out.println("vcal " + vcap.toString()); 
+	    	JsonObject language = vcap.getAsJsonArray("language_translator").get(0).getAsJsonObject();
+	    	System.out.println("language " + vcap.toString());
+	    	JsonObject credentials = language.getAsJsonObject("credentials");
+	    	System.out.println("credentials " + vcap.toString());
+	    	             
+	    	username = credentials.get("username").getAsString();
+	    	password = credentials.get("password").getAsString();
+	    	url = credentials.get("url").getAsString();
+    	}
+
+       	LanguageTranslator service = new LanguageTranslator();
+    	service.setEndPoint(url);
+    	service.setUsernameAndPassword(username, password);    	 
+
+       	TranslationResult translationResult = service.translate(word, Language.ENGLISH, Language.SPANISH).execute();
+       	
+       	System.out.println(translationResult.getFirstTranslation());
         response.setContentType("text/html");
-        response.getWriter().print("Hello World!");
+        response.getWriter().print(translationResult.getFirstTranslation());
     }
 
 }
