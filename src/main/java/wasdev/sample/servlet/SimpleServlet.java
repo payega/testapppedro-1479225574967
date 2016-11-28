@@ -23,7 +23,7 @@ public class SimpleServlet extends HttpServlet {
     	String username = "";
     	String password = "";
     	String url = "";
-    	String word = "This is my test application";
+    	String word = "This is my test application now again";
     	System.out.println("VCAP_SERVICES " + System.getenv("VCAP_SERVICES") + "*************");
        	if (System.getenv("VCAP_SERVICES") == null || System.getenv("VCAP_SERVICES").equals("{}")){
         	username = "a7e3f18d-4c1b-41f2-b3ee-15d97f4800ef";
