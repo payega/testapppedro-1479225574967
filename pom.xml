@@ -46,7 +46,6 @@
 		    <groupId>com.ibm.watson.developer_cloud</groupId>
 		    <artifactId>language-translator</artifactId>
 		    <version>3.5.1</version>
-		     <scope>runtime</scope>
 		</dependency>
     </dependencies>
 
